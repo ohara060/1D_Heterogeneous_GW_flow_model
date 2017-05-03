@@ -32,14 +32,14 @@ from matplotlib import pyplot as plt
 h = np.ogrid[444:430:100j] #sets generic hydraulic gradient based on boundary con.
 
 k = 1. *np.arange(99) # hydraulic conductivity - 99 point resolution
-k[0:33] = 2.84E-5 #(m/s)
+k[:33] = 2.84E-5 #(m/s)
 k[33:66] = 1.69E-5 #(m/s)
-k[66:-1] = 2.84E-5 #(m/s)
+k[66:] = 2.84E-5 #(m/s)
 
 n = 1. *np.arange(99) # porosity - 99 point resolution
-n[0:33] = 0.40 #(-) fraction of pore space
+n[:33] = 0.40 #(-) fraction of pore space
 n[33:66] = 0.35 #(-) fraction of pore space
-n[66:-1] = 0.40 #(-) fraction of pore space
+n[66:] = 0.40 #(-) fraction of pore space
 
 x = 100. * np.arange(100) # 10000 m from h[0] to h[-1]
 
