@@ -33,7 +33,7 @@ h = np.ogrid[444:430:100j] #sets generic hydraulic gradient based on boundary co
 
 k = 1. *np.arange(99) # hydraulic conductivity - 99 point resolution
 k[:33] = 2.84E-5 #(m/s)
-k[33:66] = 1.69E-5 #(m/s)
+k[33:66] = 0.69E-5 #(m/s)
 k[66:] = 2.84E-5 #(m/s)
 
 n = 1. *np.arange(99) # porosity - 99 point resolution
@@ -43,10 +43,18 @@ n[66:] = 0.40 #(-) fraction of pore space
 
 x = 100. * np.arange(100) # 10000 m from h[0] to h[-1]
 
-dt = 10 * 3.15E7 # years (3.15E7 is seconds per year)
+dt = 1 * 3.15E7 # years (3.15E7 is seconds per year)
 
+#for i in range(int(6000)):
 
-for i in range(int(6000)):
+h_old = 0
+
+convergence_threshold = 1E-5
+iter_counter = 0
+
+while (np.mean(np.abs(h - h_old))) > convergence_threshold:
+    iter_counter += 1
+    h_old = h.copy()
 
     dh = np.diff(h) #change in head between points   
     dx = np.diff(x) #distance between each point on x
@@ -60,12 +68,17 @@ for i in range(int(6000)):
 
     dh_dt = -dq / dx_inner #change in head over change in time
     change = dh_dt*dt
-    change = change[:-1]
-    h[1:-2] = h[1:-2] + change
+    #change = change[:-1]
+    h[1:-1] = h[1:-1] + change
     
+    if iter_counter % 1000 == 0:
+        plt.plot(x,h,'g-', linewidth = 1)
 
-plt.plot(x, h, 'b-', linewidth=2) 
-plt.xlabel('Distance m')
+print iter_counter, "iterations to convergence within", convergence_threshold,\
+      "[m]"
+
+plt.plot(x, h, 'b-', linewidth=4) 
+plt.xlabel('Distance (m)')
 plt.ylabel('Hydraulic Head (m asl)') 
 plt.title("Hydraulic Head over Distance")
 
