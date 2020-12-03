@@ -1,6 +1,4 @@
 # 1D_Heterogeneous_GW_flow_model
-third assignment for Andy's class
-
 1D Heterogeneous Groundwater Flow Model
 
 by Patrick O'Hara
